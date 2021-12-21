@@ -66,9 +66,9 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     
     // método para setar os campos do formulário com o conteúdo da tabela
     public void setar_campos(){
-        int setar = tblClientes.getSelectedRow(); //Pega a linha que está selecionada
-        System.out.println(setar);
-        //Os comandos abaixo preenche os campos com o conteúdo da tabela
+        int setar = tblClientes.getSelectedRow(); //Pega a linha que foi selecionada
+        
+        //Os comandos abaixo preenche os campos de acordo com a linha selecionada
         txtCliNome.setText(tblClientes.getModel().getValueAt(setar, 1).toString());
         txtCliEndereco.setText(tblClientes.getModel().getValueAt(setar, 2).toString());
         txtCliFone.setText(tblClientes.getModel().getValueAt(setar, 3).toString());
