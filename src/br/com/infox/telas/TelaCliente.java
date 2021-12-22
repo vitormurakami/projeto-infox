@@ -108,7 +108,28 @@ public class TelaCliente extends javax.swing.JInternalFrame {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "ERRO!");
         }
-        
+    }
+    
+    public void remover() {
+        String sql = "delete from tbclientes where idcli=?";
+
+        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja remover este cliente?", "Atenção", JOptionPane.YES_NO_OPTION);
+        if (confirma == JOptionPane.YES_OPTION) {
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtCliId.getText());
+                JOptionPane.showMessageDialog(null, "Informações do cliente deletado com sucesso!");
+                pst.executeUpdate();
+                txtCliId.setText(null);
+                txtCliNome.setText(null);
+                txtCliEndereco.setText(null);
+                txtCliFone.setText(null);
+                txtCliEmail.setText(null);
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "ERRO!");
+            }
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -170,6 +191,11 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         btnRemover.setToolTipText("Remover");
         btnRemover.setCursor(new java.awt.Cursor(java.awt.Cursor.DEFAULT_CURSOR));
         btnRemover.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnRemover.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnRemoverActionPerformed(evt);
+            }
+        });
 
         tblClientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
@@ -313,6 +339,10 @@ public class TelaCliente extends javax.swing.JInternalFrame {
     private void txtCliIdActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtCliIdActionPerformed
         // TODO add your handling code here:
     }//GEN-LAST:event_txtCliIdActionPerformed
+
+    private void btnRemoverActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnRemoverActionPerformed
+        remover();
+    }//GEN-LAST:event_btnRemoverActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
