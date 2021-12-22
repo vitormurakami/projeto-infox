@@ -74,6 +74,9 @@ public class TelaCliente extends javax.swing.JInternalFrame {
         txtCliEndereco.setText(tblClientes.getModel().getValueAt(setar, 2).toString());
         txtCliFone.setText(tblClientes.getModel().getValueAt(setar, 3).toString());
         txtCliEmail.setText(tblClientes.getModel().getValueAt(setar, 4).toString());
+        
+        //A linha abaixo desabilita o botão adicionar, ou seja, quando os campos forem preenchidos pelos comandos acima, o botão "Adicionar" irá ser desabilitado
+        btnAdicionar.setEnabled(false);
     }
     
     private void alterar(){
@@ -96,6 +99,9 @@ public class TelaCliente extends javax.swing.JInternalFrame {
                 txtCliEndereco.setText(null);
                 txtCliFone.setText(null);
                 txtCliEmail.setText(null);
+                
+                //Habilita o botão adicionar 
+                btnAdicionar.setEnabled(true);
                 
             }
         } catch (Exception e) {
