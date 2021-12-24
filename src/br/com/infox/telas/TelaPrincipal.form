@@ -30,6 +30,9 @@
                 </Property>
                 <Property name="text" type="java.lang.String" value="OS"/>
               </Properties>
+              <Events>
+                <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="MenCadOsActionPerformed"/>
+              </Events>
             </MenuItem>
             <MenuItem class="javax.swing.JMenuItem" name="MenCadUsu">
               <Properties>
@@ -166,7 +169,7 @@
               <Component id="jLabel1" min="-2" max="-2" attributes="0"/>
               <EmptySpace max="32767" attributes="0"/>
           </Group>
-          <Component id="Desktop" alignment="0" pref="482" max="32767" attributes="0"/>
+          <Component id="Desktop" alignment="0" pref="485" max="32767" attributes="0"/>
       </Group>
     </DimensionLayout>
   </Layout>
