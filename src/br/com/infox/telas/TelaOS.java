@@ -1,44 +1,46 @@
 package br.com.infox.telas;
+
 import java.sql.*;
 import br.com.infox.dal.ModuloConexao;
 import javax.swing.JOptionPane;
 import net.proteanit.sql.DbUtils; //Importa a biblioteca rs2xml, que é responsável por transferir o resultado de uma instrução SQL para uma tabela dentro da tela
 
 public class TelaOS extends javax.swing.JInternalFrame {
+
     Connection conexao = null;
     PreparedStatement pst = null;
     ResultSet rs = null;
     private String tipo; // Armazena o valor do radio button selecionado
-    
+
     public TelaOS() {
         initComponents();
         conexao = ModuloConexao.conector();
     }
-    
-    private void pesquisar_cliente(){
+
+    private void pesquisar_cliente() {
         String sql = "select idcli as Id, nomecli as Nome, fonecli as Fone from tbclientes where nomecli like ?";
         try {
             pst = conexao.prepareStatement(sql);
-            pst.setString(1, txtCliPesquisar.getText()+"%");
-            rs=pst.executeQuery();
+            pst.setString(1, txtCliPesquisar.getText() + "%");
+            rs = pst.executeQuery();
             tblClientes.setModel(DbUtils.resultSetToTableModel(rs));
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Erro!");
         }
     }
-    
-    private void setar_campos(){
+
+    private void setar_campos() {
         int setar = tblClientes.getSelectedRow();
         txtCliId.setText(tblClientes.getModel().getValueAt(setar, 0).toString());
     }
-    
+
     //Método para cadastrar uma Ordem de Serviço (OS) 
-    private void emitir_os(){
+    private void emitir_os() {
         String sql = "insert into tbos(tipo, situacao, equipamento, defeito, servico, tecnico, valor, idcli) values(?,?,?,?,?,?,?,?)";
-        
+
         try {
-            pst=conexao.prepareStatement(sql);
+            pst = conexao.prepareStatement(sql);
             pst.setString(1, tipo);
             pst.setString(2, cboOsSit.getSelectedItem().toString());
             pst.setString(3, txtOsEquip.getText());
@@ -47,11 +49,11 @@ public class TelaOS extends javax.swing.JInternalFrame {
             pst.setString(6, txtOsTec.getText());
             pst.setString(7, txtOsValor.getText().replace(",", ".")); //.replace troca a virgula pelo ponto
             pst.setString(8, txtCliId.getText());
-            
+
             //validação dos campos obrigatórios
-            if(txtCliId.getText().isEmpty() || txtOsEquip.getText().isEmpty() || (txtOsDef.getText().isEmpty())){
+            if (txtCliId.getText().isEmpty() || txtOsEquip.getText().isEmpty() || (txtOsDef.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
-            }else{
+            } else {
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "OS emitida com sucesso!");
                 txtCliId.setText(null);
@@ -61,34 +63,34 @@ public class TelaOS extends javax.swing.JInternalFrame {
                 txtOsTec.setText(null);
                 txtOsValor.setText(null);
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Erro!");
         }
     }
-    
+
     // método para pesquiar uma os
-    private void pesquisar_os(){
+    private void pesquisar_os() {
         //a linha abaixo cria uma caixa de entrada do tipo JOption Pane
         String num_os = JOptionPane.showInputDialog("Número da OS");
         String sql = "select * from tbos where os= " + num_os;
-        
+
         try {
-            pst=conexao.prepareStatement(sql);
-            rs=pst.executeQuery();
-            
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+
             if (rs.next()) {
                 txtOs.setText(rs.getString(1)); //O número 1 representa o campo da tabela tbos do banco de dados
                 txtData.setText(rs.getString(2));
                 //setando os radio buttons
-                String rbtTipo=rs.getString(3);
+                String rbtTipo = rs.getString(3);
                 if (rbtTipo.equals("OS")) {
                     rbtOs.setSelected(true);
-                    tipo="OS";
+                    tipo = "OS";
                 } else {
                     rbtOrc.setSelected(true);
-                    tipo="Orçamento";
+                    tipo = "Orçamento";
                 }
                 cboOsSit.setSelectedItem(rs.getString(4));
                 txtOsEquip.setText(rs.getString(5));
@@ -97,13 +99,12 @@ public class TelaOS extends javax.swing.JInternalFrame {
                 txtOsTec.setText(rs.getString(8));
                 txtOsValor.setText(rs.getString(9));
                 txtCliId.setText(rs.getString(10));
-                
+
                 //desativando algumas funcionalidades
                 btnOsAdicionar.setEnabled(false);
                 txtCliPesquisar.setEnabled(false);
                 tblClientes.setVisible(false);
-                
-                
+
             } else {
                 JOptionPane.showMessageDialog(null, "OS não cadastrada");
             }
@@ -112,11 +113,11 @@ public class TelaOS extends javax.swing.JInternalFrame {
             JOptionPane.showMessageDialog(null, "ERRO!");
         }
     }
-    
-    private void alterar_os(){
+
+    private void alterar_os() {
         String sql = "update tbos set tipo=?, situacao=?, equipamento=?, defeito=?, servico=?, tecnico=?, valor=? where os=?";
         try {
-            pst=conexao.prepareStatement(sql);
+            pst = conexao.prepareStatement(sql);
             pst.setString(1, tipo);
             pst.setString(2, cboOsSit.getSelectedItem().toString());
             pst.setString(3, txtOsEquip.getText());
@@ -125,14 +126,14 @@ public class TelaOS extends javax.swing.JInternalFrame {
             pst.setString(6, txtOsTec.getText());
             pst.setString(7, txtOsValor.getText().replace(",", ".")); //.replace troca a virgula pelo ponto
             pst.setString(8, txtOs.getText());
-            
+
             //validação dos campos obrigatórios
-            if(txtCliId.getText().isEmpty() || txtOsEquip.getText().isEmpty() || (txtOsDef.getText().isEmpty())){
+            if (txtCliId.getText().isEmpty() || txtOsEquip.getText().isEmpty() || (txtOsDef.getText().isEmpty())) {
                 JOptionPane.showMessageDialog(null, "Preencha todos os campos obrigatórios");
-            }else{
+            } else {
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "OS alterada com sucesso!");
-                
+
                 txtOs.setText(null);
                 txtData.setText(null);
                 txtCliId.setText(null);
@@ -141,22 +142,54 @@ public class TelaOS extends javax.swing.JInternalFrame {
                 txtOsServ.setText(null);
                 txtOsTec.setText(null);
                 txtOsValor.setText(null);
-                
+
                 //Habilitando botões e campos
                 btnOsAdicionar.setEnabled(true);
                 txtCliPesquisar.setEnabled(true);
                 tblClientes.setVisible(true);
-                
+
             }
-            
+
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "Erro!");
         }
- 
-          
     }
-    
+
+    private void excluir_os() {
+        int confirma = JOptionPane.showConfirmDialog(null, "Tem certeza que deseja excluir esta OS?", "Atenção", JOptionPane.YES_NO_OPTION);
+
+        if (confirma == JOptionPane.YES_OPTION) {
+            String sql = "delete from tbos where os=?";
+            try {
+                pst = conexao.prepareStatement(sql);
+                pst.setString(1, txtOs.getText());
+                int apagado = pst.executeUpdate();
+                if (apagado > 0) {
+                    JOptionPane.showMessageDialog(null, "OS excluída com sucesso");
+
+                    txtOs.setText(null);
+                    txtData.setText(null);
+                    txtCliId.setText(null);
+                    txtOsEquip.setText(null);
+                    txtOsDef.setText(null);
+                    txtOsServ.setText(null);
+                    txtOsTec.setText(null);
+                    txtOsValor.setText(null);
+
+                    //Habilitando botões e campos
+                    btnOsAdicionar.setEnabled(true);
+                    txtCliPesquisar.setEnabled(true);
+                    tblClientes.setVisible(true);
+                }
+
+            } catch (Exception e) {
+                e.printStackTrace();
+                JOptionPane.showMessageDialog(null, "ERRO!");
+            }
+        }
+    }
+
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
@@ -402,6 +435,11 @@ public class TelaOS extends javax.swing.JInternalFrame {
         btnOsExcluir.setToolTipText("Excluir");
         btnOsExcluir.setCursor(new java.awt.Cursor(java.awt.Cursor.HAND_CURSOR));
         btnOsExcluir.setPreferredSize(new java.awt.Dimension(80, 80));
+        btnOsExcluir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnOsExcluirActionPerformed(evt);
+            }
+        });
 
         btnOsImprimir.setIcon(new javax.swing.ImageIcon(getClass().getResource("/br/com/infox/icones/print.png"))); // NOI18N
         btnOsImprimir.setToolTipText("Imprimir OS");
@@ -542,6 +580,10 @@ public class TelaOS extends javax.swing.JInternalFrame {
         // Chamando o método alterar OS
         alterar_os();
     }//GEN-LAST:event_btnOsAlterarActionPerformed
+
+    private void btnOsExcluirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnOsExcluirActionPerformed
+        excluir_os();
+    }//GEN-LAST:event_btnOsExcluirActionPerformed
 
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
