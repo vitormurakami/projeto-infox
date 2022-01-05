@@ -61,6 +61,8 @@ public class TelaOS extends javax.swing.JInternalFrame {
             } else {
                 pst.executeUpdate();
                 JOptionPane.showMessageDialog(null, "OS emitida com sucesso!");
+                //Recupera o número da OS 
+                recuperarOs();
                 btnOsAdicionar.setEnabled(false);
                 btnOsPesquisar.setEnabled(false);
                 btnOsImprimir.setEnabled(true);
@@ -191,6 +193,21 @@ public class TelaOS extends javax.swing.JInternalFrame {
                 JOptionPane.showMessageDialog(null, "ERRO!");
             }
         }
+    }
+    
+    private void recuperarOs(){
+        String sql = "select max(os) from tbos";
+        try {
+            pst=conexao.prepareStatement(sql);
+            rs=pst.executeQuery();
+            if(rs.next()){
+                txtOs.setText(rs.getString(1));
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+            JOptionPane.showMessageDialog(null, "ERRO!");
+        }
+            
     }
     
     //limpar campos e gerenciar os botões
@@ -347,7 +364,7 @@ public class TelaOS extends javax.swing.JInternalFrame {
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
 
-        jLabel3.setText("Situação");
+        jLabel3.setText("*Situação");
 
         cboOsSit.setModel(new javax.swing.DefaultComboBoxModel<>(new String[] { " ", "Na bancada", "Entrega OK", "Orçamento REPROVADO", "Aguardando Aprovação", "Aguardando peças", "Abandonado pelo cliente", "Retornou" }));
 
