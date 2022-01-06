@@ -109,7 +109,7 @@ public class TelaOS extends javax.swing.JInternalFrame {
                 btnOsPesquisar.setEnabled(false);
                 txtCliPesquisar.setEnabled(false);
                 tblClientes.setVisible(false);
-                
+
                 //Ativando outros botões
                 btnOsAlterar.setEnabled(true);
                 btnOsExcluir.setEnabled(true);
@@ -172,9 +172,9 @@ public class TelaOS extends javax.swing.JInternalFrame {
             }
         }
     }
-    
+
     //Método para imprimir OS
-    private void imprimir_os(){
+    private void imprimir_os() {
         // Imprimindo uma OS
         int confirma = JOptionPane.showConfirmDialog(null, "Confirma a impressão desta OS?", "Atenção", JOptionPane.YES_NO_OPTION);
         if (confirma == JOptionPane.YES_OPTION) {
@@ -184,7 +184,7 @@ public class TelaOS extends javax.swing.JInternalFrame {
                 HashMap filtro = new HashMap();
                 filtro.put("os", Integer.parseInt(txtOs.getText()));
                 //Usando a classe JasperPrint   
-                JasperPrint print = JasperFillManager.fillReport("D:/Usuários/Vitor/Documents/PROJETO JAVA infox/reports/os.jasper", filtro, conexao);
+                JasperPrint print = JasperFillManager.fillReport(getClass().getResourceAsStream("/reports/os.jasper"), filtro, conexao);
 
                 //A linha abaixo exibe o relatório através da classe JasperViewer
                 JasperViewer.viewReport(print, false);
@@ -194,24 +194,24 @@ public class TelaOS extends javax.swing.JInternalFrame {
             }
         }
     }
-    
-    private void recuperarOs(){
+
+    private void recuperarOs() {
         String sql = "select max(os) from tbos";
         try {
-            pst=conexao.prepareStatement(sql);
-            rs=pst.executeQuery();
-            if(rs.next()){
+            pst = conexao.prepareStatement(sql);
+            rs = pst.executeQuery();
+            if (rs.next()) {
                 txtOs.setText(rs.getString(1));
             }
         } catch (Exception e) {
             e.printStackTrace();
             JOptionPane.showMessageDialog(null, "ERRO!");
         }
-            
+
     }
-    
+
     //limpar campos e gerenciar os botões
-    private void limpar(){
+    private void limpar() {
         //Limpando campos
         txtOs.setText(null);
         txtData.setText(null);
@@ -230,7 +230,7 @@ public class TelaOS extends javax.swing.JInternalFrame {
         btnOsPesquisar.setEnabled(true);
         txtCliPesquisar.setEnabled(true);
         tblClientes.setVisible(true);
-        
+
         //Desabilitando botões
         btnOsAlterar.setEnabled(false);
         btnOsExcluir.setEnabled(false);

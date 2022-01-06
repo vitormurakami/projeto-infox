@@ -1,9 +1,16 @@
 package br.com.infox.dal;
 import java.sql.*;
 
+/**
+ * Conexão com o banco de dados
+ * @author Vitor
+ */
 public class ModuloConexao {
+    /**
+     * Método responsável por fazer a conexão com o banco 
+     * @return conexao
+     */
     
-    //Método responsável por fazer a conexão com o banco 
     public static Connection conector(){
         Connection conexao = null;
         String driver = "com.mysql.cj.jdbc.Driver";
