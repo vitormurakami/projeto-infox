@@ -13,6 +13,8 @@ Infox é um sistema gerenciador de ordem de serviço com foco em manutenção de
 
 #
 Projeto construido em acompanhamento das videoaulas do professor José de Assis
-[Canal Professor José de Assis](https://www.youtube.com/channel/UCySbdH4Tt_l5W4gQJrNqm-Q)
+
+[Canal do Professor José de Assis](https://www.youtube.com/channel/UCySbdH4Tt_l5W4gQJrNqm-Q)
+
 [PlayList Java MySQL - Sistema OS](https://www.youtube.com/playlist?list=PLbEOwbQR9lqxsTusvu8wfkUECrmcV81MU)
 
